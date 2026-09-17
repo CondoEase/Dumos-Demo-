@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-sans;
+  }
+
+  h1, h2, h3 {
+    @apply font-serif font-semibold;
+  }
+}
