@@ -24,7 +24,7 @@ export function ResidentLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex bg-background">
       <aside className="hidden md:flex flex-col w-64 bg-primary text-white shrink-0">
         <div className="px-6 py-5 border-b border-white/10">
-          <h1 className="font-serif text-xl font-semibold">CondoEase</h1>
+          <h1 className="font-serif text-xl font-semibold">Domos</h1>
           <p className="text-xs text-white/60 mt-0.5">Resident Portal</p>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
@@ -55,7 +55,7 @@ export function ResidentLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="md:hidden fixed top-0 inset-x-0 z-40 bg-primary text-white flex items-center justify-between px-4 py-3">
-        <h1 className="font-serif font-semibold">CondoEase</h1>
+        <h1 className="font-serif font-semibold">Domos</h1>
         <button onClick={() => setMenuOpen(!menuOpen)}>☰</button>
       </div>
 
@@ -64,7 +64,7 @@ export function ResidentLayout({ children }: { children: React.ReactNode }) {
           <div className="absolute inset-0 bg-black/40" onClick={() => setMenuOpen(false)} />
           <nav className="absolute top-0 left-0 bottom-0 w-64 bg-primary text-white flex flex-col">
             <div className="px-6 py-5 border-b border-white/10 flex justify-between">
-              <h1 className="font-serif font-semibold">CondoEase</h1>
+              <h1 className="font-serif font-semibold">Domos</h1>
               <button onClick={() => setMenuOpen(false)}>✕</button>
             </div>
             <div className="flex-1 px-3 py-4 space-y-1">

@@ -92,8 +92,8 @@ export default function Login() {
         {/* Logo */}
         <div className="text-center px-8 pt-8 pb-6 border-b border-border">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary text-white font-serif text-xl font-bold mb-3">C</div>
-          <h1 className="text-2xl font-serif font-semibold text-primary">CondoEase</h1>
-          <p className="text-text-secondary text-sm mt-1">Apartment Maintenance Management</p>
+          <h1 className="text-2xl font-serif font-semibold text-primary">Domos</h1>
+          <p className="text-text-secondary text-sm mt-1">Property Management System</p>
         </div>
 
         {/* Tab switcher */}
