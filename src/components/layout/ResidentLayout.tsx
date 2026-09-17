@@ -94,7 +94,7 @@ export function ResidentLayout({ children }: { children: React.ReactNode }) {
       )}
 
       <main className="flex-1 min-w-0">
-        <div className="pt-14 md:pt-0 p-6 max-w-5xl mx-auto">
+        <div className="pt-14 md:pt-0 px-4 py-4 sm:p-6 max-w-5xl mx-auto">
           {children}
         </div>
       </main>

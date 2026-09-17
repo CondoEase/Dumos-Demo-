@@ -53,13 +53,13 @@ export default function Expenses() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <h1 className="text-2xl font-serif font-semibold text-primary">Expenses</h1>
-        <Button onClick={() => { setError(''); setModalOpen(true) }}>+ Add Expense</Button>
+        <Button size="sm" onClick={() => { setError(''); setModalOpen(true) }}>+ Add Expense</Button>
       </div>
 
       <div className="flex items-center gap-3 mb-4 flex-wrap">
-        <Select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} className="w-44">
+        <Select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} className="flex-1 min-w-[140px] max-w-[200px]">
           <option value="">All Categories</option>
           {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
         </Select>
@@ -68,7 +68,8 @@ export default function Expenses() {
         </span>
       </div>
 
-      <div className="bg-surface border border-border rounded-lg overflow-hidden">
+      {/* Desktop table */}
+      <div className="hidden md:block bg-surface border border-border rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -107,6 +108,33 @@ export default function Expenses() {
             )}
           </table>
         </div>
+      </div>
+
+      {/* Mobile card list */}
+      <div className="md:hidden space-y-3">
+        {loading ? (
+          <p className="text-center text-text-secondary py-8 text-sm">Loading…</p>
+        ) : filtered.length === 0 ? (
+          <p className="text-center text-text-secondary py-8 text-sm">No expenses recorded</p>
+        ) : filtered.map((exp) => (
+          <div key={exp.id} className="bg-surface border border-border rounded-lg p-4">
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <p className="font-semibold text-text-primary">{exp.description}</p>
+              <span className="font-semibold text-text-primary shrink-0">{formatCents(exp.amount_cents)}</span>
+            </div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">{exp.category}</span>
+              <span className="text-xs text-text-secondary">{formatDate(exp.date)}</span>
+            </div>
+            {exp.vendor && <p className="text-xs text-text-secondary">Vendor: {exp.vendor}</p>}
+          </div>
+        ))}
+        {filtered.length > 0 && (
+          <div className="bg-gray-50 border border-border rounded-lg px-4 py-3 flex justify-between">
+            <span className="text-sm font-semibold text-text-secondary">Total</span>
+            <span className="font-semibold text-text-primary">{formatCents(totalCents)}</span>
+          </div>
+        )}
       </div>
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Add Expense">

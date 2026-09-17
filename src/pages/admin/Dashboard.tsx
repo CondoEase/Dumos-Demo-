@@ -46,7 +46,7 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout>
-      <div className="mb-6">
+      <div className="mb-5">
         <h1 className="text-2xl font-serif font-semibold text-primary">Dashboard</h1>
         <p className="text-text-secondary text-sm mt-1">
           {new Date().toLocaleDateString('en-LK', { month: 'long', year: 'numeric', timeZone: 'Asia/Colombo' })}

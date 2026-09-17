@@ -124,13 +124,13 @@ export default function Residents() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <h1 className="text-2xl font-serif font-semibold text-primary">Residents & Units</h1>
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={() => { setError(''); setUnitModalOpen(true) }}>
+          <Button variant="secondary" size="sm" onClick={() => { setError(''); setUnitModalOpen(true) }}>
             + Add Unit
           </Button>
-          <Button onClick={openAddResident}>+ Add Resident</Button>
+          <Button size="sm" onClick={openAddResident}>+ Add Resident</Button>
         </div>
       </div>
 
@@ -139,11 +139,11 @@ export default function Residents() {
           placeholder="Search by name or email…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="max-w-sm"
         />
       </div>
 
-      <div className="bg-surface border border-border rounded-lg overflow-hidden">
+      {/* Desktop table */}
+      <div className="hidden md:block bg-surface border border-border rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -189,6 +189,39 @@ export default function Residents() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Mobile card list */}
+      <div className="md:hidden space-y-3">
+        {loading ? (
+          <p className="text-center text-text-secondary py-8 text-sm">Loading…</p>
+        ) : filtered.length === 0 ? (
+          <p className="text-center text-text-secondary py-8 text-sm">No residents found</p>
+        ) : filtered.map((r) => (
+          <div key={r.id} className="bg-surface border border-border rounded-lg p-4">
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <p className="font-semibold text-text-primary">{r.full_name}</p>
+              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${r.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'}`}>
+                {r.is_active ? 'Active' : 'Inactive'}
+              </span>
+            </div>
+            <p className="text-sm text-text-secondary mb-2">{r.email}</p>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xs text-text-secondary">
+                Unit: <span className="font-medium text-text-primary">{(r.unit as unknown as Unit)?.unit_number ?? '—'}</span>
+              </span>
+              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${r.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}`}>
+                {r.role}
+              </span>
+            </div>
+            <div className="flex gap-2 pt-2 border-t border-border">
+              <Button variant="ghost" size="sm" onClick={() => openEditResident(r)}>Edit</Button>
+              <Button variant="ghost" size="sm" onClick={() => toggleActive(r)}>
+                {r.is_active ? 'Deactivate' : 'Activate'}
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Resident Modal */}

@@ -120,7 +120,7 @@ export default function Invoices() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-5">
         <div>
           <h1 className="text-2xl font-serif font-semibold text-primary">Invoices</h1>
           {currentRate && (
@@ -132,25 +132,26 @@ export default function Invoices() {
             </p>
           )}
         </div>
-        <div className="flex gap-2 flex-wrap justify-end">
+        <div className="flex gap-2 flex-wrap">
           <Button variant="ghost" size="sm" onClick={() => { setError(''); setRateOpen(true) }}>Set Rate</Button>
-          <Button onClick={() => { setGenResult(null); setError(''); setGenerateOpen(true) }}>Generate Invoices</Button>
+          <Button size="sm" onClick={() => { setGenResult(null); setError(''); setGenerateOpen(true) }}>Generate Invoices</Button>
         </div>
       </div>
 
       {/* Filters */}
       <div className="flex gap-3 mb-4 flex-wrap">
-        <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="w-40">
+        <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="flex-1 min-w-[130px] max-w-[180px]">
           <option value="">All Statuses</option>
           <option value="pending">Pending</option>
           <option value="paid">Paid</option>
           <option value="overdue">Overdue</option>
           <option value="partially_paid">Partially Paid</option>
         </Select>
-        <Input type="month" value={filterPeriod} onChange={(e) => setFilterPeriod(e.target.value)} className="w-40" />
+        <Input type="month" value={filterPeriod} onChange={(e) => setFilterPeriod(e.target.value)} className="flex-1 min-w-[130px] max-w-[180px]" />
       </div>
 
-      <div className="bg-surface border border-border rounded-lg overflow-hidden">
+      {/* Desktop table */}
+      <div className="hidden md:block bg-surface border border-border rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -186,6 +187,35 @@ export default function Invoices() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Mobile card list */}
+      <div className="md:hidden space-y-3">
+        {loading ? (
+          <p className="text-center text-text-secondary py-8 text-sm">Loading…</p>
+        ) : filtered.length === 0 ? (
+          <p className="text-center text-text-secondary py-8 text-sm">No invoices found</p>
+        ) : filtered.map((inv) => (
+          <div key={inv.id} className="bg-surface border border-border rounded-lg p-4">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <div>
+                <p className="font-semibold text-text-primary">{inv.unit?.unit_number ?? '—'}</p>
+                <p className="text-sm text-text-secondary">{formatPeriod(inv.period)}</p>
+              </div>
+              <Badge status={inv.status} />
+            </div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-semibold text-text-primary">{formatCents(inv.amount_due_cents)}</span>
+              <span className="text-xs text-text-secondary">Due {formatDate(inv.due_date)}</span>
+            </div>
+            <div className="flex gap-2 pt-2 border-t border-border">
+              <Button variant="ghost" size="sm" onClick={() => viewSlips(inv)}>Payments</Button>
+              {inv.status === 'paid' && (
+                <Button variant="ghost" size="sm" onClick={() => generateReceipt(inv.id)}>Receipt</Button>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Generate Modal */}
